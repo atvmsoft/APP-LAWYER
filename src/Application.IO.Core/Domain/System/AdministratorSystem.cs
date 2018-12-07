@@ -7,20 +7,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Application.IO.Core.Domain.System
 {
     // Usuários administradores do sistema
-    [Table("AdmUsersSystem")]
-    public class AdmUserSystem : Entity
+    [Table("AdministratorsSystem")]
+    public class AdministratorSystem : Entity
     {
         [Display(Name = "Cód. Usuário")]
         [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
+        [ForeignKey("ApplicationUser")]
         public Guid IdApplicationUser { get; private set; }
 
-        public AdmUserSystem(Guid idApplicationUser)
+        public AdministratorSystem(Guid idApplicationUser)
         {
             IdApplicationUser = idApplicationUser;
         }
 
         // EF Construtor
-        protected AdmUserSystem() { }
+        protected AdministratorSystem() { }
 
         // EF Propriedade de Navegação
         public virtual ApplicationUser ApplicationUser { get; set; }

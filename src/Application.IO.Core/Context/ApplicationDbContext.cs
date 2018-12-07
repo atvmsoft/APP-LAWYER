@@ -12,8 +12,8 @@ namespace Application.IO.Core.Context
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
         public virtual DbSet<Lawyer> Lawyers { get; set; }
-        public virtual DbSet<OccupationAreasLawyer> OccupationAreas { get; set; }
-        public virtual DbSet<OccupationAreasLawyer> LawyerOccupationAreas { get; set; }
+        public virtual DbSet<OccupationAreaLawyer> OccupationAreas { get; set; }
+        public virtual DbSet<OccupationAreaLawyer> LawyerOccupationAreas { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 

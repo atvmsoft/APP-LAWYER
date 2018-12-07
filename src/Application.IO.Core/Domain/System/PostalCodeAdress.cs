@@ -1,5 +1,7 @@
-﻿using Application.IO.Core.Domain.Source.Models;
+﻿using Application.IO.Core.Domain.Lawyers;
+using Application.IO.Core.Domain.Source.Models;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -67,5 +69,11 @@ namespace Application.IO.Core.Domain.System
             InsertByUser = true;
             Date = DateTime.Now;
         }
+
+        // EF Construtor
+        protected PostalCodeAdress() { }
+
+        // EF Propriedade de Navegação
+        public virtual ICollection<LawyerSociety> LawyersSociety { get; set; }
     }
 }

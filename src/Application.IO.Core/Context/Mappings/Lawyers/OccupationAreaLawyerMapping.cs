@@ -5,19 +5,21 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Application.IO.Core.Context.Mappings.Lawyers
 {
-    public class OccupationAreasLawyerMapping : EntityTypeConfiguration<OccupationAreasLawyer>
+    public class OccupationAreaLawyerMapping : EntityTypeConfiguration<OccupationAreaLawyer>
     {
-        public override void Map(EntityTypeBuilder<OccupationAreasLawyer> builder)
+        public override void Map(EntityTypeBuilder<OccupationAreaLawyer> builder)
         {
-            builder.ToTable("OccupationAreasLawyer");
+            builder.Property(e => e.LawyerScore).HasColumnType("float");
 
-            builder.HasOne(e => e.Lawyer)
-                .WithMany(o => o.OccupationAreasLawyer)
-                .HasForeignKey(e => e.IdLawyer);
+            builder.ToTable("OccupationAreasLawyer");
 
             builder.HasOne(e => e.LawyerOccupationAreas)
                 .WithMany(o => o.OccupationAreasLawyer)
                 .HasForeignKey(e => e.IdLawyerOccupationArea);
+
+            builder.HasOne(e => e.Lawyer)
+                .WithMany(o => o.OccupationAreasLawyer)
+                .HasForeignKey(e => e.IdLawyer);
         }
     }
 }

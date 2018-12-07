@@ -7,22 +7,24 @@ namespace Application.IO.Core.Domain.Lawyers
 {
     // Advogados - Area de Ocupação
     [Table("OccupationAreasLawyer")]
-    public class OccupationAreasLawyer : Entity
+    public class OccupationAreaLawyer : Entity
     {
+        [Display(Name = "Cód. Área de Ocuoação")]
+        [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
+        [ForeignKey("LawyerOccupationAreas")]
+        public Guid IdLawyerOccupationArea { get; private set; }
+
+        [Display(Name = "Cód. Advogado")]
+        [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
+        [ForeignKey("Lawyer")]
+        public Guid IdLawyer { get; private set; }
+
         [Display(Name = "Score")]
         [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
         [Range(0, 5, ErrorMessage = "O campo \"{0}\" deve estar entre \"{1}\" e \"{2}\"")]
         public decimal LawyerScore { get; private set; }
 
-        [Display(Name = "Cód. Advogado")]
-        [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
-        public Guid IdLawyer { get; private set; }
-
-        [Display(Name = "Cód. Área de Ocuoação")]
-        [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
-        public Guid IdLawyerOccupationArea { get; private set; }
-
-        public OccupationAreasLawyer(decimal lawyerScore, Guid idLawyer, Guid idLawyerOccupationArea)
+        public OccupationAreaLawyer(decimal lawyerScore, Guid idLawyer, Guid idLawyerOccupationArea)
         {
             LawyerScore = LawyerScore;
             IdLawyer = idLawyer;
@@ -30,10 +32,10 @@ namespace Application.IO.Core.Domain.Lawyers
         }
 
         // EF Construtor
-        protected OccupationAreasLawyer() { }
+        protected OccupationAreaLawyer() { }
 
         //// EF Propriedades de Navegação
+        public virtual LawyerOccupationArea LawyerOccupationAreas { get; set; }
         public virtual Lawyer Lawyer { get; set; }
-        public virtual LawyerOccupationAreas LawyerOccupationAreas { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Application.IO.Core.Domain.Source.Models;
+using Application.IO.Core.Domain.System;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,14 +7,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Application.IO.Core.Domain.Lawyers
 {
     [Table("LawyersSociety")]
-    public class LawyersSociety : Entity
+    public class LawyerSociety : Entity
     {
         [Display(Name = "Cód. Advogado")]
         [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
+        [ForeignKey("Lawyer")]
         public Guid IdLawyer { get; private set; }
 
         [Display(Name = "CEP")]
         [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
+        [ForeignKey("PostalCodeAdress")]
         public Guid IdPostalCodeAdress { get; private set; }
         
         [Display(Name = "Nome")]
@@ -49,5 +52,24 @@ namespace Application.IO.Core.Domain.Lawyers
         [MaxLength(256, ErrorMessage = "O campo \"{0}\" deve possuir no máximo {1} caracteres")]
         [EmailAddress(ErrorMessage = "O campo \"{0}\" é inválido")]
         public string BusinessEmail { get; private set; }
+
+        public LawyerSociety(Guid idLawyer, Guid idPostalCodeAdress, string name, string number, string complement, string businessPhone, string businessFax, string businessEmail)
+        {
+            IdLawyer = idLawyer;
+            IdPostalCodeAdress = idPostalCodeAdress;
+            Name = name;
+            Number = number;
+            Complement = complement;
+            BusinessPhone = businessPhone;
+            BusinessFax = businessFax;
+            BusinessEmail = businessEmail;
+        }
+
+        // EF Construtor
+        protected LawyerSociety() { }
+
+        //// EF Propriedades de Navegação
+        public virtual Lawyer Lawyer { get; set; }
+        public virtual PostalCodeAdress PostalCodeAdress { get; set; }
     }
 }

@@ -30,6 +30,6 @@ namespace Application.IO.Core.Identity.Models
         // EF Propriedade de Navegação
         public virtual ICollection<Lawyer> Lawyers { get; set; }
         public virtual ICollection<Customer> Customers { get; set; }
-        public virtual ICollection<AdmUserSystem> AdmUsersSystem { get; set; }
+        public virtual ICollection<AdministratorSystem> AdmUsersSystem { get; set; }
     }
 }

@@ -4,14 +4,16 @@ using Application.IO.Core.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Application.IO.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181207142619_rds-20181207-04")]
+    partial class rds2018120704
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,13 +119,15 @@ namespace Application.IO.Core.Migrations
 
                     b.Property<Guid>("IdLawyerOccupationArea");
 
+                    b.Property<Guid?>("LawyerOccupationAreasId");
+
                     b.Property<decimal>("LawyerScore");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IdLawyer");
 
-                    b.HasIndex("IdLawyerOccupationArea");
+                    b.HasIndex("LawyerOccupationAreasId");
 
                     b.ToTable("OccupationAreasLawyer");
                 });
@@ -391,8 +395,7 @@ namespace Application.IO.Core.Migrations
 
                     b.HasOne("Application.IO.Core.Domain.Lawyers.LawyerOccupationArea", "LawyerOccupationAreas")
                         .WithMany("OccupationAreasLawyer")
-                        .HasForeignKey("IdLawyerOccupationArea")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("LawyerOccupationAreasId");
                 });
 
             modelBuilder.Entity("Application.IO.Core.Domain.System.AdministratorSystem", b =>

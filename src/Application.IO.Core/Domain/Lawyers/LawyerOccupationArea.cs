@@ -7,7 +7,7 @@ namespace Application.IO.Core.Domain.Lawyers
 {
     //Área de Atuação
     [Table("LawyerOccupationAreas")]
-    public class LawyerOccupationAreas : Entity
+    public class LawyerOccupationArea : Entity
     {
         [Display(Name ="Nome")]
         [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
@@ -21,16 +21,16 @@ namespace Application.IO.Core.Domain.Lawyers
         [Range(0, 5, ErrorMessage = "O campo \"{0}\" deve estar entre \"{1}\" e \"{2}\"")]
         public decimal MinScore { get; private set; }
 
-        public LawyerOccupationAreas(string name, decimal minScore)
+        public LawyerOccupationArea(string name, decimal minScore)
         {
             Name = name;
             MinScore = minScore;
         }
 
         // EF Construtor
-        protected LawyerOccupationAreas() { }
+        protected LawyerOccupationArea() { }
 
         // EF Propriedade de Navegação
-        public virtual ICollection<OccupationAreasLawyer> OccupationAreasLawyer { get; set; }
+        public virtual ICollection<OccupationAreaLawyer> OccupationAreasLawyer { get; set; }
     }
 }

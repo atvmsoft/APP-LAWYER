@@ -10,7 +10,9 @@ namespace Application.IO.Core.Domain.Customers
     [Table("Customers")]
     public class Customer : Entity
     {
-        [Required, ForeignKey("ApplicationUser")]
+        [Display(Name = "Cód. Usuário")]
+        [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
+        [ForeignKey("ApplicationUser")]
         public Guid IdApplicationUser { get; private set; }
 
         public Customer(Guid idApplicationUser)

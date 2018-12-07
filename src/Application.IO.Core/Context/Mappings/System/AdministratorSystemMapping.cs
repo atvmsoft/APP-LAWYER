@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Application.IO.Core.Context.Mappings.System
 {
-    public class AdmUserSystemMapping : EntityTypeConfiguration<AdmUserSystem>
+    public class AdministratorSystemMapping : EntityTypeConfiguration<AdministratorSystem>
     {
-        public override void Map(EntityTypeBuilder<AdmUserSystem> builder)
+        public override void Map(EntityTypeBuilder<AdministratorSystem> builder)
         {
-            builder.ToTable("AdmUsersSystem");
+            builder.ToTable("AdministratorsSystem");
 
             builder.HasOne(e => e.ApplicationUser)
                 .WithMany(o => o.AdmUsersSystem)

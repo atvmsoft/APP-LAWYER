@@ -13,6 +13,7 @@ namespace Application.IO.Core.Domain.Lawyers
     {
         [Display(Name ="Cód. Usuário")]
         [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
+        [ForeignKey("ApplicationUser")]
         public Guid IdApplicationUser { get; private set; }
 
         [Display(Name = "Nº OAB")]
@@ -48,7 +49,8 @@ namespace Application.IO.Core.Domain.Lawyers
         protected Lawyer() { }
 
         // EF Propriedade de Navegação
-        public virtual ICollection<OccupationAreasLawyer> OccupationAreasLawyer { get; set; }
+        public virtual ICollection<OccupationAreaLawyer> OccupationAreasLawyer { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
+        public virtual ICollection<LawyerSociety> LawyersSociety { get; set; }
     }
 }

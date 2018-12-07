@@ -4,14 +4,16 @@ using Application.IO.Core.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Application.IO.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181207135603_rds-20181207-01")]
+    partial class rds2018120701
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,6 +40,8 @@ namespace Application.IO.Core.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<Guid?>("ApplicationUserId");
+
                     b.Property<DateTime>("DateRegistration");
 
                     b.Property<Guid>("IdApplicationUser");
@@ -48,7 +52,7 @@ namespace Application.IO.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdApplicationUser");
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Lawyers");
                 });
@@ -91,6 +95,8 @@ namespace Application.IO.Core.Migrations
 
                     b.Property<Guid>("IdPostalCodeAdress");
 
+                    b.Property<Guid?>("LawyerId");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(80);
@@ -99,11 +105,13 @@ namespace Application.IO.Core.Migrations
                         .IsRequired()
                         .HasMaxLength(10);
 
+                    b.Property<Guid?>("PostalCodeAdressId");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("IdLawyer");
+                    b.HasIndex("LawyerId");
 
-                    b.HasIndex("IdPostalCodeAdress");
+                    b.HasIndex("PostalCodeAdressId");
 
                     b.ToTable("LawyersSociety");
                 });
@@ -117,13 +125,17 @@ namespace Application.IO.Core.Migrations
 
                     b.Property<Guid>("IdLawyerOccupationArea");
 
+                    b.Property<Guid?>("LawyerId");
+
+                    b.Property<Guid?>("LawyerOccupationAreasId");
+
                     b.Property<decimal>("LawyerScore");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdLawyer");
+                    b.HasIndex("LawyerId");
 
-                    b.HasIndex("IdLawyerOccupationArea");
+                    b.HasIndex("LawyerOccupationAreasId");
 
                     b.ToTable("OccupationAreasLawyer");
                 });
@@ -133,13 +145,15 @@ namespace Application.IO.Core.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<Guid?>("ApplicationUserId");
+
                     b.Property<Guid>("IdApplicationUser");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdApplicationUser");
+                    b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("AdministratorsSystem");
+                    b.ToTable("AdmUsersSystem");
                 });
 
             modelBuilder.Entity("Application.IO.Core.Domain.System.PostalCodeAdress", b =>
@@ -365,42 +379,36 @@ namespace Application.IO.Core.Migrations
                 {
                     b.HasOne("Application.IO.Core.Identity.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Lawyers")
-                        .HasForeignKey("IdApplicationUser")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("Application.IO.Core.Domain.Lawyers.LawyerSociety", b =>
                 {
                     b.HasOne("Application.IO.Core.Domain.Lawyers.Lawyer", "Lawyer")
                         .WithMany("LawyersSociety")
-                        .HasForeignKey("IdLawyer")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("LawyerId");
 
                     b.HasOne("Application.IO.Core.Domain.System.PostalCodeAdress", "PostalCodeAdress")
                         .WithMany("LawyersSociety")
-                        .HasForeignKey("IdPostalCodeAdress")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PostalCodeAdressId");
                 });
 
             modelBuilder.Entity("Application.IO.Core.Domain.Lawyers.OccupationAreaLawyer", b =>
                 {
                     b.HasOne("Application.IO.Core.Domain.Lawyers.Lawyer", "Lawyer")
                         .WithMany("OccupationAreasLawyer")
-                        .HasForeignKey("IdLawyer")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("LawyerId");
 
                     b.HasOne("Application.IO.Core.Domain.Lawyers.LawyerOccupationArea", "LawyerOccupationAreas")
                         .WithMany("OccupationAreasLawyer")
-                        .HasForeignKey("IdLawyerOccupationArea")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("LawyerOccupationAreasId");
                 });
 
             modelBuilder.Entity("Application.IO.Core.Domain.System.AdministratorSystem", b =>
                 {
                     b.HasOne("Application.IO.Core.Identity.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("AdmUsersSystem")
-                        .HasForeignKey("IdApplicationUser")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

@@ -9,6 +9,9 @@ namespace Application.IO.Core.Context.Mappings.Lawyers
     {
         public override void Map(EntityTypeBuilder<Lawyer> builder)
         {
+            builder.Property(e => e.OAB).HasColumnType("varchar(10)");
+            builder.Property(e => e.DateRegistration).HasColumnType("datetime");
+
             builder.ToTable("Lawyers");
 
             builder.HasOne(e => e.ApplicationUser)
