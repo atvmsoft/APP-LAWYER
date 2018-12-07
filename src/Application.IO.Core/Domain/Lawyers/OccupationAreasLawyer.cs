@@ -9,13 +9,17 @@ namespace Application.IO.Core.Domain.Lawyers
     [Table("OccupationAreasLawyer")]
     public class OccupationAreasLawyer : Entity
     {
-        [Required, DataType("float")]
+        [Display(Name = "Score")]
+        [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
+        [Range(0, 5, ErrorMessage = "O campo \"{0}\" deve estar entre \"{1}\" e \"{2}\"")]
         public decimal LawyerScore { get; private set; }
 
-        [Required, ForeignKey("Lawyer")]
+        [Display(Name = "Cód. Advogado")]
+        [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
         public Guid IdLawyer { get; private set; }
 
-        [Required, ForeignKey("LawyerOccupationAreas")]
+        [Display(Name = "Cód. Área de Ocuoação")]
+        [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
         public Guid IdLawyerOccupationArea { get; private set; }
 
         public OccupationAreasLawyer(decimal lawyerScore, Guid idLawyer, Guid idLawyerOccupationArea)

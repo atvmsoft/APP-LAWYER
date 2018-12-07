@@ -11,40 +11,37 @@ namespace Application.IO.Core.Domain.Lawyers
     [Table("Lawyers")]
     public class Lawyer : Entity
     {
-        [Required, ForeignKey("ApplicationUser")]
+        [Display(Name ="Cód. Usuário")]
+        [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
         public Guid IdApplicationUser { get; private set; }
 
-        [Required, MaxLength(10), DataType("varchar(10)")]
+        [Display(Name = "Nº OAB")]
+        [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
+        [MinLength(3, ErrorMessage = "O campo \"{0}\" deve possuir no mínimo {1} caracteres")]
+        [MaxLength(10, ErrorMessage = "O campo \"{0}\" deve possuir no máximo {1} caracteres")]
         public string OAB { get; private set; } //Número de registro da OAB
 
-        //public string FatherName { get; private set; } //Nome do pai
-        //public string MotherName { get; private set; } //Nome da mãe
+        //[Required, MaxLength(20)]
+        //public string BusinessPhone { get; private set; } //Telefone profissional
 
-        [Required, MaxLength(20), DataType("varchar(20)")]
-        public string BusinessPhone { get; private set; } //Telefone profissional
+        //[MaxLength(20)]
+        //public string BusinessCellPhone { get; private set; } //Celular profissional
 
-        [MaxLength(20), DataType("varchar(20)")]
-        public string BusinessCellPhone { get; private set; } //Celular profissional
+        //[MaxLength(20)]
+        //public string BusinessFax { get; private set; } //Fax profissional
 
-        [Required, MaxLength(20), DataType("varchar(20)")]
-        public string BusinessFax { get; private set; } //Fax profissional
-
-        [Required, DataType("datetime")]
+        [Display(Name = "Data Registro na Ordem")]
+        [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
         public DateTime DateRegistration { get; private set; } //Data de inscrição
 
-        //public string SiteUrl { get; private set; } //Site
-
-        public Lawyer(Guid idApplicationUser, string oab, DateTime dateRegistration, /*string fatherName, string motherName,*/ string businessPhone, string businessCellPhone = null, string businessFax = null/*, string siteUrl = null*/)
+        public Lawyer(Guid idApplicationUser, string oab, DateTime dateRegistration/*, string businessPhone, string businessCellPhone = null, string businessFax = null*/)
         {
             IdApplicationUser = idApplicationUser;
             OAB = oab;
-            //FatherName = fatherName;
-            //MotherName = motherName;
-            BusinessPhone = businessPhone;
-            BusinessCellPhone = businessCellPhone;
-            BusinessFax = businessFax;
+            //BusinessPhone = businessPhone;
+            //BusinessCellPhone = businessCellPhone;
+            //BusinessFax = businessFax;
             DateRegistration = dateRegistration;
-            //SiteUrl = siteUrl;
         }
 
         // EF Construtor

@@ -9,10 +9,16 @@ namespace Application.IO.Core.Domain.Lawyers
     [Table("LawyerOccupationAreas")]
     public class LawyerOccupationAreas : Entity
     {
-        [Required, MaxLength(200), DataType("varchar(200)")]
+        [Display(Name ="Nome")]
+        [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
+        [MinLength(3, ErrorMessage = "O campo \"{0}\" deve possuir no mínimo {1} caracteres")]
+        [MaxLength(200, ErrorMessage = "O campo \"{0}\" deve possuir no máximo {1} caracteres")]
+        [DataType("varchar(200)")]
         public string Name { get; private set; }
 
-        [Required, DataType("float")]
+        [Display(Name = "Score")]
+        [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
+        [Range(0, 5, ErrorMessage = "O campo \"{0}\" deve estar entre \"{1}\" e \"{2}\"")]
         public decimal MinScore { get; private set; }
 
         public LawyerOccupationAreas(string name, decimal minScore)

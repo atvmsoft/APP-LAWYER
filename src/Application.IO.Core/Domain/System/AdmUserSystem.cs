@@ -10,7 +10,8 @@ namespace Application.IO.Core.Domain.System
     [Table("AdmUsersSystem")]
     public class AdmUserSystem : Entity
     {
-        [Required, ForeignKey("ApplicationUser")]
+        [Display(Name = "Cód. Usuário")]
+        [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
         public Guid IdApplicationUser { get; private set; }
 
         public AdmUserSystem(Guid idApplicationUser)
