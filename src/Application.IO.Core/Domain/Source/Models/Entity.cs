@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace Application.IO.Core.Domain.Source.Models
@@ -14,7 +15,8 @@ namespace Application.IO.Core.Domain.Source.Models
         }
 
         [Key]
-        public Guid Id { get; protected set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; protected set; }
 
         public bool EhValido() => !Get.Any();
 

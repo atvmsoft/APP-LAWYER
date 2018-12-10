@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Application.IO.Core.Migrations
 {
-    public partial class RDG2018120401 : Migration
+    public partial class RDS2018121001 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -55,13 +55,35 @@ namespace Application.IO.Core.Migrations
                 name: "LawyerOccupationAreas",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(maxLength: 200, nullable: false),
-                    MinScore = table.Column<decimal>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false),
+                    MinScore = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LawyerOccupationAreas", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PostalCodeAdress",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Code = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false),
+                    Place = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    Neighborhood = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),
+                    City = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    State = table.Column<string>(type: "varchar(2)", maxLength: 2, nullable: false),
+                    StateName = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false),
+                    Country = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: false),
+                    InsertByUser = table.Column<bool>(nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PostalCodeAdress", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -81,6 +103,25 @@ namespace Application.IO.Core.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AdministratorsSystem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    IdApplicationUser = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AdministratorsSystem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AdministratorsSystem_AspNetUsers_IdApplicationUser",
+                        column: x => x.IdApplicationUser,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -171,16 +212,33 @@ namespace Application.IO.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    IdApplicationUser = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Customers_AspNetUsers_IdApplicationUser",
+                        column: x => x.IdApplicationUser,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Lawyers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     IdApplicationUser = table.Column<Guid>(nullable: false),
-                    OAB = table.Column<string>(maxLength: 10, nullable: false),
-                    BusinessPhone = table.Column<string>(maxLength: 20, nullable: false),
-                    BusinessCellPhone = table.Column<string>(maxLength: 20, nullable: true),
-                    BusinessFax = table.Column<string>(maxLength: 20, nullable: false),
-                    DateRegistration = table.Column<DateTime>(nullable: false)
+                    OAB = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false),
+                    DateRegistration = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -194,13 +252,46 @@ namespace Application.IO.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LawyersSociety",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    IdLawyer = table.Column<int>(nullable: false),
+                    IdPostalCodeAdress = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(type: "varchar(80)", maxLength: 80, nullable: false),
+                    Number = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false),
+                    Complement = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),
+                    BusinessPhone = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false),
+                    BusinessFax = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true),
+                    BusinessEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LawyersSociety", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LawyersSociety_Lawyers_IdLawyer",
+                        column: x => x.IdLawyer,
+                        principalTable: "Lawyers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LawyersSociety_PostalCodeAdress_IdPostalCodeAdress",
+                        column: x => x.IdPostalCodeAdress,
+                        principalTable: "PostalCodeAdress",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OccupationAreasLawyer",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    LawyerScore = table.Column<decimal>(nullable: false),
-                    IdLawyer = table.Column<Guid>(nullable: false),
-                    IdLawyerOccupationArea = table.Column<Guid>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    IdLawyerOccupationArea = table.Column<int>(nullable: false),
+                    IdLawyer = table.Column<int>(nullable: false),
+                    LawyerScore = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -218,6 +309,11 @@ namespace Application.IO.Core.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AdministratorsSystem_IdApplicationUser",
+                table: "AdministratorsSystem",
+                column: "IdApplicationUser");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -259,9 +355,24 @@ namespace Application.IO.Core.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Customers_IdApplicationUser",
+                table: "Customers",
+                column: "IdApplicationUser");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Lawyers_IdApplicationUser",
                 table: "Lawyers",
                 column: "IdApplicationUser");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LawyersSociety_IdLawyer",
+                table: "LawyersSociety",
+                column: "IdLawyer");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LawyersSociety_IdPostalCodeAdress",
+                table: "LawyersSociety",
+                column: "IdPostalCodeAdress");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OccupationAreasLawyer_IdLawyer",
@@ -272,10 +383,19 @@ namespace Application.IO.Core.Migrations
                 name: "IX_OccupationAreasLawyer_IdLawyerOccupationArea",
                 table: "OccupationAreasLawyer",
                 column: "IdLawyerOccupationArea");
+
+            migrationBuilder.CreateIndex(
+                name: "IDX_Code",
+                table: "PostalCodeAdress",
+                column: "Code",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AdministratorsSystem");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -292,10 +412,19 @@ namespace Application.IO.Core.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Customers");
+
+            migrationBuilder.DropTable(
+                name: "LawyersSociety");
+
+            migrationBuilder.DropTable(
                 name: "OccupationAreasLawyer");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "PostalCodeAdress");
 
             migrationBuilder.DropTable(
                 name: "Lawyers");

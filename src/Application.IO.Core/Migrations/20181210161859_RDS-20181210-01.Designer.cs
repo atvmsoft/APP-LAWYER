@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application.IO.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181207140135_rds-20181207-02")]
-    partial class rds2018120702
+    [Migration("20181210161859_RDS-20181210-01")]
+    partial class RDS2018121001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,8 +23,9 @@ namespace Application.IO.Core.Migrations
 
             modelBuilder.Entity("Application.IO.Core.Domain.Customers.Customer", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<Guid>("IdApplicationUser");
 
@@ -37,15 +38,18 @@ namespace Application.IO.Core.Migrations
 
             modelBuilder.Entity("Application.IO.Core.Domain.Lawyers.Lawyer", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateRegistration");
+                    b.Property<DateTime>("DateRegistration")
+                        .HasColumnType("datetime");
 
                     b.Property<Guid>("IdApplicationUser");
 
                     b.Property<string>("OAB")
                         .IsRequired()
+                        .HasColumnType("varchar(10)")
                         .HasMaxLength(10);
 
                     b.HasKey("Id");
@@ -57,13 +61,16 @@ namespace Application.IO.Core.Migrations
 
             modelBuilder.Entity("Application.IO.Core.Domain.Lawyers.LawyerOccupationArea", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("MinScore");
+                    b.Property<double>("MinScore")
+                        .HasColumnType("float");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("varchar(200)")
                         .HasMaxLength(200);
 
                     b.HasKey("Id");
@@ -73,126 +80,140 @@ namespace Application.IO.Core.Migrations
 
             modelBuilder.Entity("Application.IO.Core.Domain.Lawyers.LawyerSociety", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BusinessEmail")
+                        .HasColumnType("varchar(256)")
                         .HasMaxLength(256);
 
                     b.Property<string>("BusinessFax")
+                        .HasColumnType("varchar(20)")
                         .HasMaxLength(20);
 
                     b.Property<string>("BusinessPhone")
                         .IsRequired()
+                        .HasColumnType("varchar(20)")
                         .HasMaxLength(20);
 
                     b.Property<string>("Complement")
+                        .HasColumnType("varchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<Guid>("IdLawyer");
+                    b.Property<int>("IdLawyer");
 
-                    b.Property<Guid>("IdPostalCodeAdress");
-
-                    b.Property<Guid?>("LawyerId");
+                    b.Property<int>("IdPostalCodeAdress");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("varchar(80)")
                         .HasMaxLength(80);
 
                     b.Property<string>("Number")
                         .IsRequired()
+                        .HasColumnType("varchar(10)")
                         .HasMaxLength(10);
-
-                    b.Property<Guid?>("PostalCodeAdressId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LawyerId");
+                    b.HasIndex("IdLawyer");
 
-                    b.HasIndex("PostalCodeAdressId");
+                    b.HasIndex("IdPostalCodeAdress");
 
                     b.ToTable("LawyersSociety");
                 });
 
             modelBuilder.Entity("Application.IO.Core.Domain.Lawyers.OccupationAreaLawyer", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid>("IdLawyer");
+                    b.Property<int>("IdLawyer");
 
-                    b.Property<Guid>("IdLawyerOccupationArea");
+                    b.Property<int>("IdLawyerOccupationArea");
 
-                    b.Property<Guid?>("LawyerId");
-
-                    b.Property<Guid?>("LawyerOccupationAreasId");
-
-                    b.Property<decimal>("LawyerScore");
+                    b.Property<double>("LawyerScore")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LawyerId");
+                    b.HasIndex("IdLawyer");
 
-                    b.HasIndex("LawyerOccupationAreasId");
+                    b.HasIndex("IdLawyerOccupationArea");
 
                     b.ToTable("OccupationAreasLawyer");
                 });
 
             modelBuilder.Entity("Application.IO.Core.Domain.System.AdministratorSystem", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("ApplicationUserId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<Guid>("IdApplicationUser");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("IdApplicationUser");
 
                     b.ToTable("AdministratorsSystem");
                 });
 
             modelBuilder.Entity("Application.IO.Core.Domain.System.PostalCodeAdress", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("City")
                         .IsRequired()
+                        .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
                     b.Property<string>("Code")
                         .IsRequired()
+                        .HasColumnType("varchar(8)")
                         .HasMaxLength(8);
 
                     b.Property<string>("Country")
                         .IsRequired()
+                        .HasColumnType("varchar(40)")
                         .HasMaxLength(40);
 
-                    b.Property<DateTime>("Date");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime");
 
                     b.Property<bool>("InsertByUser");
 
                     b.Property<string>("Neighborhood")
+                        .HasColumnType("varchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("Place")
                         .IsRequired()
+                        .HasColumnType("varchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("State")
                         .IsRequired()
+                        .HasColumnType("varchar(2)")
                         .HasMaxLength(2);
 
                     b.Property<string>("StateName")
                         .IsRequired()
+                        .HasColumnType("varchar(30)")
                         .HasMaxLength(30);
 
                     b.HasKey("Id");
 
-                    b.ToTable("PostalCodesAdress");
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasName("IDX_Code")
+                        .HasAnnotation("SqlServer:IncludeIndex", "[Id], [Place], [Neighborhood], [City], [State], [StateName], [Country], [InsertByUser]");
+
+                    b.ToTable("PostalCodeAdress");
                 });
 
             modelBuilder.Entity("Application.IO.Core.Identity.Models.ApplicationUser", b =>
@@ -385,29 +406,34 @@ namespace Application.IO.Core.Migrations
                 {
                     b.HasOne("Application.IO.Core.Domain.Lawyers.Lawyer", "Lawyer")
                         .WithMany("LawyersSociety")
-                        .HasForeignKey("LawyerId");
+                        .HasForeignKey("IdLawyer")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Application.IO.Core.Domain.System.PostalCodeAdress", "PostalCodeAdress")
                         .WithMany("LawyersSociety")
-                        .HasForeignKey("PostalCodeAdressId");
+                        .HasForeignKey("IdPostalCodeAdress")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Application.IO.Core.Domain.Lawyers.OccupationAreaLawyer", b =>
                 {
                     b.HasOne("Application.IO.Core.Domain.Lawyers.Lawyer", "Lawyer")
                         .WithMany("OccupationAreasLawyer")
-                        .HasForeignKey("LawyerId");
+                        .HasForeignKey("IdLawyer")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Application.IO.Core.Domain.Lawyers.LawyerOccupationArea", "LawyerOccupationAreas")
                         .WithMany("OccupationAreasLawyer")
-                        .HasForeignKey("LawyerOccupationAreasId");
+                        .HasForeignKey("IdLawyerOccupationArea")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Application.IO.Core.Domain.System.AdministratorSystem", b =>
                 {
                     b.HasOne("Application.IO.Core.Identity.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("AdmUsersSystem")
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("IdApplicationUser")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

@@ -19,6 +19,7 @@ namespace Application.IO.Api.Configurations
 
             var tokenConfigurations = new TokenDescriptor();
             new ConfigureFromConfigurationOptions<TokenDescriptor>(configuration.GetSection("JwtTokenOptions")).Configure(tokenConfigurations);
+
             services.AddSingleton(tokenConfigurations);
 
             services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(o =>
@@ -27,12 +28,6 @@ namespace Application.IO.Api.Configurations
                 o.User.RequireUniqueEmail = true;
                 o.SignIn.RequireConfirmedEmail = true;
             }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-
-            //services.ConfigureApplicationCookie(o=> {
-            //    o.Cookie.HttpOnly = true;
-            //    o.Cookie.Expiration = TimeSpan.FromMinutes(5);
-            //    o.SlidingExpiration = true;
-            //});
 
             services.AddAuthentication(options =>
             {

@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Application.IO.Core.Domain.System
 {
-    [Table("PostalCodesAdress")]
+    //[Table("PostalCodesAdress")]
     public class PostalCodeAdress : Entity
     {
         [Display(Name = "CEP")]

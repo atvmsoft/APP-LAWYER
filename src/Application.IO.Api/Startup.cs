@@ -68,7 +68,6 @@ namespace Application.IO.Api
 
             app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseCookiePolicy();
             app.UseMvc();
             #endregion
 

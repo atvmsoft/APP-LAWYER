@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Application.IO.Core.Domain.Lawyers
 {
     //Área de Atuação
-    [Table("LawyerOccupationAreas")]
+    //[Table("LawyerOccupationAreas")]
     public class LawyerOccupationArea : Entity
     {
         [Display(Name ="Nome")]

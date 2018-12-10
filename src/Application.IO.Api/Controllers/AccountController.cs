@@ -104,10 +104,14 @@ namespace Application.IO.Api.Controllers
             if (!result.Succeeded)
                 return BadRequest(new { sucess = false, errors = result.Errors.Select(s => s.Description) });
 
-            var token = _userManager.GenerateEmailConfirmationTokenAsync(user).Result;
+            await _emailSender.SendEmailConfirmationAsync(model.Email,
+                
+                Url.EmailConfirmationLink(
+                    user.Id.ToString(),
+                    _userManager.GenerateEmailConfirmationTokenAsync(user).Result,
+                    Request.Scheme),
 
-            var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), token, Request.Scheme);
-            await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl, $"{user.Name} {user.LastName}");
+                $"{user.Name} {user.LastName}");
 
             return Ok(new { sucess = true });
         }
@@ -139,9 +143,10 @@ namespace Application.IO.Api.Controllers
 
         [HttpPost]
         [Route("account/logout")]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Logout(int version)
         {
             await _signInManager.SignOutAsync();
+
             return Ok(new { sucess = true });
         }
         #endregion

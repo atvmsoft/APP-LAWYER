@@ -1,6 +1,7 @@
 ﻿using Application.IO.Core.Domain.Source.Notifications;
 using Application.IO.Core.Domain.Source.Notifications.Interfaces;
 using Application.IO.Core.Identity.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -12,7 +13,7 @@ namespace Application.IO.Api.Controllers
             IAppNotificationHandler<DomainNotification> notification) : base(user, notification) { }
 
         // GET api/values
-        //[Authorize]
+        [Authorize]
         [HttpGet("values")]
         public ActionResult<IEnumerable<string>> Get(int version)
         {

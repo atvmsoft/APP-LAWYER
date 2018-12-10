@@ -1,24 +1,23 @@
 ﻿using Application.IO.Core.Domain.Source.Models;
 using Application.IO.Core.Domain.System;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Application.IO.Core.Domain.Lawyers
 {
-    [Table("LawyersSociety")]
+    //[Table("LawyersSociety")]
     public class LawyerSociety : Entity
     {
         [Display(Name = "Cód. Advogado")]
         [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
-        [ForeignKey("Lawyer")]
-        public Guid IdLawyer { get; private set; }
+        //[ForeignKey("Lawyer")]
+        public int IdLawyer { get; private set; }
 
         [Display(Name = "CEP")]
         [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
-        [ForeignKey("PostalCodeAdress")]
-        public Guid IdPostalCodeAdress { get; private set; }
-        
+        //[ForeignKey("PostalCodeAdress")]
+        public int IdPostalCodeAdress { get; private set; }
+
         [Display(Name = "Nome")]
         [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
         [MinLength(3, ErrorMessage = "O campo \"{0}\" deve possuir no mínimo {1} caracteres")]
@@ -53,7 +52,7 @@ namespace Application.IO.Core.Domain.Lawyers
         [EmailAddress(ErrorMessage = "O campo \"{0}\" é inválido")]
         public string BusinessEmail { get; private set; }
 
-        public LawyerSociety(Guid idLawyer, Guid idPostalCodeAdress, string name, string number, string complement, string businessPhone, string businessFax, string businessEmail)
+        public LawyerSociety(int idLawyer, int idPostalCodeAdress, string name, string number, string complement, string businessPhone, string businessFax, string businessEmail)
         {
             IdLawyer = idLawyer;
             IdPostalCodeAdress = idPostalCodeAdress;

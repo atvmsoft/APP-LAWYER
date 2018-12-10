@@ -6,25 +6,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Application.IO.Core.Domain.Lawyers
 {
     // Advogados - Area de Ocupação
-    [Table("OccupationAreasLawyer")]
+    //[Table("OccupationAreasLawyer")]
     public class OccupationAreaLawyer : Entity
     {
         [Display(Name = "Cód. Área de Ocuoação")]
         [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
-        [ForeignKey("LawyerOccupationAreas")]
-        public Guid IdLawyerOccupationArea { get; private set; }
+        //[ForeignKey("LawyerOccupationAreas")]
+        public int IdLawyerOccupationArea { get; private set; }
 
         [Display(Name = "Cód. Advogado")]
         [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
-        [ForeignKey("Lawyer")]
-        public Guid IdLawyer { get; private set; }
+        //[ForeignKey("Lawyer")]
+        public int IdLawyer { get; private set; }
 
         [Display(Name = "Score")]
         [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
         [Range(0, 5, ErrorMessage = "O campo \"{0}\" deve estar entre \"{1}\" e \"{2}\"")]
         public decimal LawyerScore { get; private set; }
 
-        public OccupationAreaLawyer(decimal lawyerScore, Guid idLawyer, Guid idLawyerOccupationArea)
+        public OccupationAreaLawyer(decimal lawyerScore, int idLawyer, int idLawyerOccupationArea)
         {
             LawyerScore = LawyerScore;
             IdLawyer = idLawyer;

@@ -8,12 +8,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Application.IO.Core.Domain.Lawyers
 {
     // Advogado
-    [Table("Lawyers")]
+    //[Table("Lawyers")]
     public class Lawyer : Entity
     {
         [Display(Name ="Cód. Usuário")]
         [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
-        [ForeignKey("ApplicationUser")]
+        //[ForeignKey("ApplicationUser")]
         public Guid IdApplicationUser { get; private set; }
 
         [Display(Name = "Nº OAB")]

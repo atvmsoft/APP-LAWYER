@@ -18,6 +18,8 @@ namespace Application.IO.Core.Context.Mappings.System
             builder.Property(e => e.Country).HasColumnType("varchar(40)");
             builder.Property(e => e.Date).HasColumnType("datetime");
 
+            builder.HasIndex(i => i.Code).IsUnique().HasName("IDX_Code");
+
             builder.ToTable("PostalCodeAdress");
         }
     }

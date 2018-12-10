@@ -7,12 +7,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Application.IO.Core.Domain.Customers
 {
     // Clientes
-    [Table("Customers")]
+    //[Table("Customers")]
     public class Customer : Entity
     {
         [Display(Name = "Cód. Usuário")]
         [Required(ErrorMessage = "O campo \"{0}\" é obrigatorio")]
-        [ForeignKey("ApplicationUser")]
+        //[ForeignKey("ApplicationUser")]
         public Guid IdApplicationUser { get; private set; }
 
         public Customer(Guid idApplicationUser)
